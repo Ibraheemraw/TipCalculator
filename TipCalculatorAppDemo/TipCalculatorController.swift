@@ -25,8 +25,8 @@ class TipCalculatorController: UIViewController {
     setupVCSettings()
     }
     public func calculateBill(){
-        tip.tipPercentage = Double(tipPercentageSlider.value) / 100.0
-        print("percent: ", tip.tipPercentage)
+        let roundedValue = round(100 * tipPercentageSlider.value) / 100.0
+        tip.tipPercentage = Double(roundedValue)
         tip.amountBeforeTaxes = (beforeTaxesAmountField.text! as NSString).doubleValue
         tip.calculateTip()
         updateUI()
@@ -53,22 +53,23 @@ class TipCalculatorController: UIViewController {
         splitBetweenLabel.text = "Split: \(Int(splitBetweenSlider.value))"
     }
     private func changeColorOfView(sliderSender sender: UISlider){
-        switch Double(sender.value) {
-        case 0.0..<0.3:
-            totalAmountView.backgroundColor = .green
-        case 0.3..<0.6:
-            totalAmountView.backgroundColor = .yellow
-        case 0.6...1.0:
-            totalAmountView.backgroundColor = .red
+        let roundedValue = round(100 * sender.value) / 100.0
+        switch roundedValue {
+        case 0.0...0.3:
+            totalAmountView.backgroundColor = UIColor.systemGreen
+        case 0.31...0.6:
+            totalAmountView.backgroundColor = UIColor.systemYellow
+            afterTaxesAmountLabel.textColor = .black
+        case 0.61...1.0:
+            totalAmountView.backgroundColor = UIColor.systemRed
         default:
-            totalAmountView.backgroundColor = .blue
+            print()
         }
     }
     
     @IBAction func tipSliderDidChanged(_ sender: UISlider){
         updatePercentageLabel()
         calculateBill()
-        //TODO: Fix Color Logic
         changeColorOfView(sliderSender: sender)
        
     }

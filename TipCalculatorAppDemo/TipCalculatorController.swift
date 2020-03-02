@@ -47,7 +47,10 @@ class TipCalculatorController: UIViewController {
     }
     // MARK: - Actions & Methods
     private func updatePercentageLabel() {
-        tipPercentageLabel.text = String(format: "Tip: %2d%%", Int(tipPercentageSlider.value))
+        let tipPercentageValue = tipPercentageSlider.value
+        let newPercentValue = tipPercentageValue * 100
+        let newTipLabelValue = "Tip: \(Int(newPercentValue))" + "%"
+        tipPercentageLabel.text = newTipLabelValue
     }
     private func updateSplitLabel(){
         splitBetweenLabel.text = "Split: \(Int(splitBetweenSlider.value))"
@@ -57,16 +60,39 @@ class TipCalculatorController: UIViewController {
         switch roundedValue {
         case 0.0...0.3:
             totalAmountView.backgroundColor = UIColor.systemGreen
+            afterTaxesAmountLabel.textColor = .white
         case 0.31...0.6:
             totalAmountView.backgroundColor = UIColor.systemYellow
             afterTaxesAmountLabel.textColor = .black
         case 0.61...1.0:
             totalAmountView.backgroundColor = UIColor.systemRed
+            afterTaxesAmountLabel.textColor = .white
         default:
             print()
         }
     }
-    
+    private func changeColorOfPerPersonView(sliderSender sender: UISlider){
+        switch sender.value {
+        case 0...4:
+            perPersonView.backgroundColor = UIColor.systemRed
+            afterTaxesAmountLabel.textColor = .white
+        case 5...8:
+            perPersonView.backgroundColor = UIColor.systemOrange
+            perPersonLabel.textColor = .black
+        case 9...12:
+            perPersonView.backgroundColor = UIColor.systemYellow
+            perPersonLabel.textColor = .black
+        case 13...16:
+            perPersonView.backgroundColor = UIColor.systemGreen
+            perPersonLabel.textColor = .white
+        case 17...20:
+            perPersonView.backgroundColor = UIColor.systemBlue
+            perPersonLabel.textColor = .white
+        default:
+            print()
+        }
+        
+    }
     @IBAction func tipSliderDidChanged(_ sender: UISlider){
         updatePercentageLabel()
         calculateBill()
@@ -76,6 +102,7 @@ class TipCalculatorController: UIViewController {
     @IBAction func splitBtwnSliderDidChanged(_ sender: UISlider){
         updateSplitLabel()
         calculateBill()
+        changeColorOfPerPersonView(sliderSender: sender)
       
     }
     @IBAction func beforeTaxesTextFieldDidChange(_ sender: UITextField){

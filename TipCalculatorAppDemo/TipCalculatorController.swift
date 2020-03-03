@@ -8,8 +8,10 @@ class TipCalculatorController: UIViewController {
     @IBOutlet weak var splitBetweenLabel: UILabel!
     @IBOutlet weak var splitBetweenSlider: UISlider!
     @IBOutlet weak var afterTaxesAmountLabel: UILabel!
+    @IBOutlet weak var perPersonContainterTitleLabel: UILabel!
     @IBOutlet weak var perPersonLabel: UILabel!
     @IBOutlet weak var totalAmountView: UIView!
+    @IBOutlet weak var totalAmountContainterTitleLabel: UILabel!
     @IBOutlet weak var perPersonView: UIView!
     var tip = TipModel.init(amountBeforeTax: 0, tipPercentage: 0.10)
     
@@ -55,18 +57,22 @@ class TipCalculatorController: UIViewController {
     private func updateSplitLabel(){
         splitBetweenLabel.text = "Split: \(Int(splitBetweenSlider.value))"
     }
+    #warning("Refactor code below")
     private func changeColorOfView(sliderSender sender: UISlider){
         let roundedValue = round(100 * sender.value) / 100.0
         switch roundedValue {
         case 0.0...0.3:
             totalAmountView.backgroundColor = UIColor.systemGreen
             afterTaxesAmountLabel.textColor = .white
+            totalAmountContainterTitleLabel.textColor = .white
         case 0.31...0.6:
             totalAmountView.backgroundColor = UIColor.systemYellow
             afterTaxesAmountLabel.textColor = .black
+            totalAmountContainterTitleLabel.textColor = .black
         case 0.61...1.0:
             totalAmountView.backgroundColor = UIColor.systemRed
             afterTaxesAmountLabel.textColor = .white
+            totalAmountContainterTitleLabel.textColor = .white
         default:
             print()
         }
@@ -76,18 +82,23 @@ class TipCalculatorController: UIViewController {
         case 0...4:
             perPersonView.backgroundColor = UIColor.systemRed
             afterTaxesAmountLabel.textColor = .white
+            perPersonContainterTitleLabel.textColor = .white
         case 5...8:
             perPersonView.backgroundColor = UIColor.systemOrange
             perPersonLabel.textColor = .black
+             perPersonContainterTitleLabel.textColor = .black
         case 9...12:
             perPersonView.backgroundColor = UIColor.systemYellow
             perPersonLabel.textColor = .black
+             perPersonContainterTitleLabel.textColor = .black
         case 13...16:
             perPersonView.backgroundColor = UIColor.systemGreen
             perPersonLabel.textColor = .white
+             perPersonContainterTitleLabel.textColor = .white
         case 17...20:
             perPersonView.backgroundColor = UIColor.systemBlue
             perPersonLabel.textColor = .white
+             perPersonContainterTitleLabel.textColor = .white
         default:
             print()
         }
